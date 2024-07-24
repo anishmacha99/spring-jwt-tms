@@ -1,0 +1,221 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: liquibase-docs
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: user_roles
+            baseColumnNames:
+              - user_id
+            referencedTableName: users
+            referencedColumnNames:
+              - id
+            constraintName: FK_user_roles_users
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: user_roles
+            baseColumnNames:
+              - role_id
+            referencedTableName: roles
+            referencedColumnNames:
+              - id
+            constraintName: FK_user_roles_roles
+            onDelete: CASCADE
+  - changeSet:
+      id: 2
+      author: anish
+      changes:
+        - createTable:
+            tableName: tasks
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    defaultValue: 'TODO'
+              - column:
+                  name: priority
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    defaultValue: 'LOW'
+              - column:
+                  name: due_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assigned_to
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    defaultValue: true
+        - addForeignKeyConstraint:
+            baseTableName: tasks
+            baseColumnNames:
+              - created_by
+            referencedTableName: users
+            referencedColumnNames:
+              - id
+            constraintName: FK_tasks_created_by
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: tasks
+            baseColumnNames:
+              - assigned_to
+            referencedTableName: users
+            referencedColumnNames:
+              - id
+            constraintName: FK_tasks_assigned_to
+            onDelete: CASCADE
+  - changeSet:
+      id: 3
+      author: anish
+      changes:
+        - createTable:
+            tableName: tasks_history
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: task_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: status
+                  type: varchar(20)
+              - column:
+                  name: priority
+                  type: varchar(20)
+              - column:
+                  name: due_date
+                  type: timestamp
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: assigned_to
+                  type: bigint
+              - column:
+                  name: last_modified_by
+                  type: bigint
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: action_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
