@@ -1,12 +1,13 @@
 ```markdown
 # Project Title
 
-A brief description of what this project does and who it's for.
+Task Management Service backend with Spring MVC, Security with JWT
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 - Java JDK 17 or higher installed
+- For testing default database is H2, if needed to change, update application.properties.
 
 
 ## Building the Project
